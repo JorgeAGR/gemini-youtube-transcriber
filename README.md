@@ -56,6 +56,10 @@ transcript = transcribe_youtube("https://www.youtube.com/watch?v=...")
 print(transcript)
 ```
 
+### mcpb (Claude Desktop)
+
+Download the latest `.mcpb` file from the [Releases](../../releases/latest) page and open it — Claude Desktop will install the extension automatically and prompt you for your Gemini API key.
+
 ### MCP server
 
 ```bash
