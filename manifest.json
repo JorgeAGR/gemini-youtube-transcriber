@@ -1,0 +1,33 @@
+{
+  "manifest_version": "0.4",
+  "name": "youtube-transcriber",
+  "display_name": "YouTube Transcriber",
+  "version": "0.1.0",
+  "description": "Transcribe YouTube video audio with timestamps using Gemini.",
+  "author": {
+    "name": "Jorge A. Garcia"
+  },
+  "server": {
+    "type": "uv",
+    "entry_point": "src/youtube_transcriber/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["run", "--directory", "${__dirname}", "python", "-m", "youtube_transcriber.server"],
+      "env": {
+        "GEMINI_API_KEY": "${user_config.gemini_api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "gemini_api_key": {
+      "type": "string",
+      "title": "Gemini API Key",
+      "description": "Your Google Gemini API key",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"]
+  }
+}

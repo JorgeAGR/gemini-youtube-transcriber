@@ -33,6 +33,12 @@ Requires a [Gemini API key](https://aistudio.google.com/apikey). Set it as an en
 export GEMINI_API_KEY="your-key-here"
 ```
 
+Optionally, override the Gemini model (default: `gemini-3-flash-preview`):
+
+```bash
+export GEMINI_MODEL="gemini-3.1-flash-lite-preview"
+```
+
 ## Usage
 
 ### CLI
@@ -64,10 +70,21 @@ Register in your MCP client config:
     "youtube-transcriber": {
       "command": "python",
       "args": ["-m", "youtube_transcriber.server"],
-      "env": { "GEMINI_API_KEY": "your-key-here" }
+      "env": {
+        "GEMINI_API_KEY": "your-key-here",
+        "GEMINI_MODEL": "gemini-3-flash-preview"
+      }
     }
   }
 }
 ```
 
 The MCP tool `transcribe_youtube_video` accepts a YouTube URL and returns the full transcription string.
+
+### mcpb
+
+A `manifest.json` is included for one-click installation via [mcpb](https://mcpb.dev). mcpb will prompt you for your Gemini API key and handle the rest — no manual config editing required.
+
+```bash
+mcpb install .
+```
