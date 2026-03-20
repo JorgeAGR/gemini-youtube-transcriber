@@ -4,7 +4,10 @@ Core YouTube transcription logic using Gemini.
 Library usage:
     from youtube_transcriber import transcribe_youtube
     result = transcribe_youtube("https://www.youtube.com/watch?v=...")
-    # [{"timestamp": "00:00", "text": "..."}, ...]
+
+Environment variables:
+    GEMINI_API_KEY  Required. Your Gemini API key.
+    GEMINI_MODEL    Optional. Model to use (default: gemini-3-flash-preview).
 """
 
 import os
@@ -13,7 +16,7 @@ from typing import Optional
 from google import genai
 from google.genai import types
 
-MODEL = "gemini-3-flash-preview"
+DEFAULT_MODEL = "gemini-3-flash-preview"
 
 TRANSCRIPTION_PROMPT = """\
 Transcribe this video's audio in full, one segment per line.
@@ -40,6 +43,7 @@ def transcribe_youtube(
     Args:
         youtube_url: YouTube video URL.
         api_key: Gemini API key. Falls back to the GEMINI_API_KEY environment variable.
+                 The model can be overridden via the GEMINI_MODEL environment variable.
 
     Returns:
         Transcription string, one segment per line in "MM:SS: [Speaker X:] text" format.
@@ -52,9 +56,10 @@ def transcribe_youtube(
         )
 
     client = genai.Client(api_key=key)
+    model = os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
 
     response = client.models.generate_content(
-        model=MODEL,
+        model=model,
         contents=types.Content(
             parts=[
                 types.Part(

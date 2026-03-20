@@ -10,7 +10,10 @@ Or register in your MCP client config:
         "youtube-transcriber": {
           "command": "python",
           "args": ["-m", "youtube_transcriber.server"],
-          "env": { "GEMINI_API_KEY": "your-key-here" }
+          "env": {
+            "GEMINI_API_KEY": "your-key-here",
+            "GEMINI_MODEL": "gemini-3-flash-preview"
+          }
         }
       }
     }
@@ -29,7 +32,11 @@ def transcribe_youtube_video(url: str) -> str:
     Transcribe the audio of a YouTube video with timestamps.
 
     Uses Gemini to produce a line-by-line transcription. Each line is formatted as:
-        [MM:SS] Transcribed text
+        MM:SS: <text>
+    or, when multiple speakers are detected:
+        MM:SS: Speaker A: <text>
+
+    The model can be controlled via the GEMINI_MODEL environment variable.
 
     Args:
         url: YouTube video URL (e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ)
